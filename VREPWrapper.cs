@@ -12,9 +12,17 @@ namespace remoteApiNETWrapper
     {
         [DllImport("remoteApi.dll")]
         public static extern void simxFinish(int clientID);
+        public static void simwFinish( int clientID )
+        {
+            simxFinish( clientID );
+        }
 
         [DllImport("remoteApi.dll")]
         public static extern int simxGetConnectionId(int clientID);
+        public static int simwGetConnectionId( int clientID )
+        {
+            return simxGetConnectionId( clientID );
+        }
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxGetFloatSignal(int clientID, string signalName, ref float value, simx_opmode opmode);
@@ -30,6 +38,9 @@ namespace remoteApiNETWrapper
             simxGetIntegerSignal(clientID, signalName, ref v, simx_opmode.buffer);
             return v;
         }
+
+        [DllImport("remoteApi.dll")]
+        public static extern simx_error simxSetStringSignal(int clientID, string signalName, string value, int length, simx_opmode opmode);
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxGetStringSignal(int clientID, string signalName, ref IntPtr pointerToValue, ref int signalLength, simx_opmode opmode);
@@ -76,12 +87,20 @@ namespace remoteApiNETWrapper
         [DllImport("remoteApi.dll")]
         public extern static simx_error simxReadProximitySensor(int clientID, int sensorHandle,
                                                          ref char detectionState, float[] detectionPoint, ref int objectHandle, float[] normalVector, simx_opmode opmode);
+        public static simx_error simwReadProximitySensor( int clientID, int sensorHandle, ref char detectionState, float[ ] detectionPoint, ref int objectHandle, float[ ] normalVector, simx_opmode opmode )
+        {
+            return simxReadProximitySensor( clientID, sensorHandle, ref detectionState, detectionPoint, ref objectHandle, normalVector, opmode );
+        }
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxSetJointTargetPosition(int clientID, int jointHandle, float targetPosition, simx_opmode opmode);
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxSetJointTargetVelocity(int clientID, int jointHandle, float velocity, simx_opmode opmode);
+        public static simx_error simwSetJointTargetVelocity( int clientID, int jointHandle, float velocity, simx_opmode opmode )
+        {
+            return simxSetJointTargetVelocity( clientID, jointHandle, velocity, opmode );
+        }
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxSetObjectFloatParameter(int clientID, int objectHandle, int parameterID, float parameterValue, simx_opmode opmode);
@@ -91,6 +110,10 @@ namespace remoteApiNETWrapper
 
         [DllImport("remoteApi.dll")]
         public static extern int simxStart(string ip, int port, bool waitForConnection, bool reconnectOnDisconnect, int timeoutMS, int cycleTimeMS);
+        public static int simwStart( string ip, int port, bool waitForConnection, bool reconnectOnDisconnect, int timeoutMS, int cycleTimeMS )
+        {
+            return simxStart( ip, port, waitForConnection, reconnectOnDisconnect, timeoutMS, cycleTimeMS );
+        }
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxGetUIEventButton(int clientID, int uiHandle, ref int uiEventButtonID, IntPtr aux, simx_opmode opmode);
@@ -101,5 +124,12 @@ namespace remoteApiNETWrapper
 
         [DllImport("remoteApi.dll")]
         public static extern simx_error simxGetObjectHandle(int clientID, string objectName, out int handle, simx_opmode opmode);
+        [DllImport( "remoteApi.dll" )]
+        public static extern int simxGetLastCmdTime( int clientID );
+
+        public static int simwGetLastCmdTime( int clientID )
+        {
+            return simxGetLastCmdTime( clientID );
+        }
     }
 }
